@@ -1,0 +1,35 @@
+services:
+  # The Express API
+  api:
+    build: .
+    ports:
+      - "${API_PORT}:3000" # host:container — container always exposes 3000
+    env_file:
+      - .env
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      db:
+        condition: service_healthy # wait for postgres to be ready, not just started
+    restart: always
+
+  # The PostgreSQL Database
+  db:
+    image: postgres:16
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - "5433:5432" # maps local 5433 to container 5432 to avoid local conflicts
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

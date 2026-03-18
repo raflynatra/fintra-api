@@ -1,0 +1,32 @@
+# ── Environment ─────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# Keep the example so others know what variables are needed
+!.env.example
+
+# ── Build output ─────────────────────────────────────────────
+# TypeScript compiles src/ → dist/, dist/ should never be committed.
+# Reviewers read your source in src/, not the compiled output.
+dist/
+
+# ── Logs ─────────────────────────────────────────────────────
+logs/
+*.log
+
+# ── Dependencies ─────────────────────────────────────────────
+node_modules/
+
+# ── OS files ─────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Editor ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ── Test coverage ────────────────────────────────────────────
+coverage/
